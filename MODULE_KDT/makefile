@@ -8,5 +8,5 @@ kdtree: kdtree.o ../MODULE_IMAGE/libimage64.a ../MODULE_TABLE/libtable64.a
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f *.o 
+	rm -f *.o *.x kdtree
 
