@@ -11,7 +11,7 @@ color_table create_color_table(image img)
 {
 	assert(img != NULL);	
 
-	color_table table = malloc(sizeof(color_table));
+	color_table table = malloc(sizeof(struct color_table));
 
 	table->size   = image_give_largeur(img)*image_give_dim(img);
 	table->colors = malloc(sizeof(color) * table->size);
@@ -19,7 +19,7 @@ color_table create_color_table(image img)
 
 	image_debut(img);
 
-	int * pixel, i;
+	int * pixel = NULL, i = 0;
 	do 
 	{
 		pixel = image_lire_pixel(img);
@@ -54,7 +54,7 @@ color_table color_table_duplicate(color_table table, int offset, int length)
 {
 	assert(table != NULL && offset >= 0 && offset < table->size && length >= 0 && length < table->size);
 
-	color_table table2 = malloc(sizeof(color_table));
+	color_table table2 = malloc(sizeof(struct color_table));
 	table2->size   = length*3;
 	table2->colors = (table->colors) + 3 * offset;
 	table2->owner = false;
@@ -77,13 +77,17 @@ int color_table_get_nb_color(color_table table)
 {
 	return table->size / 3;
 }
-
+/*
 void exchangeVal(color * table, int i, int j)
 {	
-	color tmp;
-	tmp = table[j];
-	table[j] = table[i];
-	table[i] = tmp;	
+	color tmp[3];
+	int k;
+	for (k = 0; i < 3; i++)
+	{
+		tmp[k] = table[j+k];
+		table[j+k] = table[i+k];
+		table[i+k] = tmp[k];	
+	}
 }
 
 int part(color * table, int start, int end, FCT_CMP fctCmp)
@@ -136,27 +140,62 @@ void color_table_sort(color_table table, axis colorAxis)
 		break;
 	}
 }
-/*
-void color_table_sort(color_table table, axis axis)
+
+
+
+
+void color_table_sort(color_table table, axis colorAxis)
 {
-	assert(table != NULL && axis >= 0 && axis <= 2);
-	printf("table : %p\n", table);
-	switch (axis)
+	assert(table != NULL && colorAxis >= 0 && colorAxis <= 2);
+
+	switch (colorAxis)
 	{
 		case red : 
-			qsort(table->colors, table->size, 3*sizeof(color), compareRed);
+    		insertionSort(table, compareRed); 
 		break;
 
 		case green : 
-			qsort(table->colors, table->size, 3*sizeof(color), compareGreen);
+    		insertionSort(table, compareGreen); 
 		break;
 
 		case blue : 
-			qsort(table->colors, table->size, 3*sizeof(color), compareBlue);
+    		insertionSort(table, compareBlue); 
 		break;
 	}
 }
+
+void insertionSort(color_table table, FCT_CMP fctCmp)
+{
+	int i, j;
+	for (i = 1; i < table->size; i+=3)
+	{		
+		for (j = i; j > 3 && fctCmp(&table->colors[j], &table->colors[j-3]) > 0; j-=3)
+		{
+			exchangeVal(table->colors, j, j-1);
+		}
+	}
+}
 */
+
+void color_table_sort(color_table table, axis axis)
+{
+	assert(table != NULL && axis >= 0 && axis <= 2);
+	switch (axis)
+	{
+		case red : 
+			qsort(table->colors, table->size / 3, 3*sizeof(color), compareRed);
+		break;
+
+		case green : 
+			qsort(table->colors, table->size / 3, 3*sizeof(color), compareGreen);
+		break;
+
+		case blue : 
+			qsort(table->colors, table->size / 3, 3*sizeof(color), compareBlue);
+		break;
+	}
+}
+
 int compareRed(const void * a, const void * b)
 {
 	int colA = *((const color *) a);
@@ -191,10 +230,10 @@ void afficher_table(color_table table)
 	printf("\n");
 }
 
-int main()
+/*int main()
 {
 	image img = FAIRE_image();
-	image_charger(img, "../IMAGES/TABLES/table_lenna_256.ppm");
+	image_charger(img, "../IMAGES/TABLES/table_lenna_512.ppm");
 
 	color_table table = create_color_table(img);
 
@@ -204,10 +243,10 @@ int main()
 	afficher_table(table);
 
 	printf("Tri table\n");
-	color_table_sort(table, blue);
+	color_table_sort(table, red);
 	afficher_table(table);	
 
-/*	color_table table2 = color_table_duplicate(table, 7, 4);
+	color_table table2 = color_table_duplicate(table, 7, 4);
 
 	
 	printf("table 2 : \n");
@@ -225,7 +264,7 @@ int main()
 	color_table_sort(table, blue);
 	afficher_table(table);	
 
-	destroy_color_table(table);*/
+	destroy_color_table(table);
 
 	return 0;
-}
+}*/

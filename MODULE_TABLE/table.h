@@ -37,4 +37,6 @@ int part(color * table, int start, int end, FCT_CMP fctCmp);
 
 void sortTable(color *table, int sortStart, int sortEnd, FCT_CMP fctCmp);
 
+void insertionSort(color_table table, FCT_CMP fctCmp);
+
 #endif

@@ -11,17 +11,12 @@ struct kdtree
 
 kdtree create_kdtree(color_table table, int limit)
 {
-	kdtree kdt = malloc(sizeof(kdtree));
+	kdtree kdt = malloc(sizeof(struct kdtree));
 	kdt->table = table;
 	kdt->position = color_table_get_nb_color(table) / 2;
 	
 	int i, sumRed = 0, sumGreen = 0, sumBlue = 0;
-	color colors[3];
-	colors[0] = 0;
-	colors[1] = 0;
-	colors[2] = 0;
-
-	printf("boucle vect diff\n");
+	color * colors = malloc(sizeof(color)*3);
 
 	for (i = 0; i < color_table_get_nb_color(kdt->table); i++)
 	{
@@ -42,15 +37,11 @@ kdtree create_kdtree(color_table table, int limit)
 		else
 			kdt->colorAxis = blue;
 
-	printf("red %d green %d blue %d\n", sumRed, sumGreen, sumBlue);
-
-	printf("sort %p sur %d\n", kdt->table, kdt->colorAxis);
 	color_table_sort(kdt->table, kdt->colorAxis);
 
 	color_table table_left;
 	color_table table_right;
 
-	printf("creation des fils\n");
 	if (kdt->position >= limit)
 	{
 		table_left  = color_table_duplicate(table, 0, kdt->position);
@@ -71,7 +62,6 @@ kdtree create_kdtree(color_table table, int limit)
 	}
 
 	return kdt;
-
 }
 
 void destroy_kdtree(kdtree kdt)
@@ -105,12 +95,14 @@ int main(int argc, char *argv[])
 	}*/
 
 	image img = FAIRE_image();
-	image_charger(img, "../IMAGES/TABLES/table_house_512.ppm");
+	image_charger(img, "../IMAGES/TABLES/table_house_1080.ppm");
 	image_debut(img);
 
 	color_table table = create_color_table(img);
 
 	arbre = create_kdtree(table, 10);
+
+	destroy_kdtree(arbre);
 
 	return 0;
 }
