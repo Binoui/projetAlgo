@@ -1,28 +1,32 @@
+#include <time.h>
 #include "./kdtree.h"
-
+ 	
 int main(int argc, char *argv[])
 {
-/*	image table = FAIRE_image();
-*/	kdtree arbre;
+	image img = FAIRE_image();
+	kdtree arbre;
 
-	if (argc < 1)
+	if (argc < 2)
 	{
-		printf("erreur, entrez une image en argument\n");
+		printf("erreur, entrez une image en argument puis la table à utiliser\n");
 		return EXIT_FAILURE;
 	}
 
-/*	if (image_charger(table, argv[1]) < 0)
+	if (image_charger(img, argv[1]) < 0)
 	{
 		printf("erreur fichier\n");
 		return EXIT_FAILURE;
-	}*/
+	}
 
-	image img = FAIRE_image();
-	image_charger(img, "../IMAGES/lenna.ppm");
+	/*image_charger(img, argv[1]);*/
 	image_debut(img);
 
 	image modele = FAIRE_image();
-	image_charger(modele, "../IMAGES/TABLES/table_lenna_1280.ppm");
+/*	image_charger(modele, "../IMAGES/TABLES/table_lenna_256.ppm");
+*/	
+	clock_t t1 = clock();
+	clock_t t2;
+	image_charger(modele, argv[2]);
 	image_debut(modele);
 
 
@@ -58,7 +62,11 @@ int main(int argc, char *argv[])
 		image_ecrire_pixel(img, newPixel);
 	} while (image_pixel_suivant(img) != faux);
 
-	image_sauvegarder(img, "image.ppm");
+	t2 = clock();
+	float time = (float)(t2 - t1) / CLOCKS_PER_SEC;
+
+	printf("Image crée dans newImage.ppm en %f secondes\n", time);
+	image_sauvegarder(img, "newImage.ppm");
 
 	destroy_kdtree(arbre);
 

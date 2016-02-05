@@ -193,7 +193,7 @@ void color_table_sort(color_table table, axis axis)
 		case blue : 
 			qsort(table->colors, table->size / 3, 3*sizeof(color), compareBlue);
 		break;
-	}
+	} 
 }
 
 int compareRed(const void * a, const void * b)
