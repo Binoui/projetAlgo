@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 	
 		if (argc != 3)
 		{
-			printf("Entrez en argument une image contenant la table à charger et une image à utiliser comme modèle\n");
+			printf("Entrez en argument l'image modèle puis l'image contenant la table à utilsier\n");
 			return 1;
 		}
 
@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
 		float time = (float)(t2 - t1) / CLOCKS_PER_SEC;
 
 		printf("Nouvelle image newImage.ppm créée en %f secondes\n", time);
-		image_sauvegarder(modele, "newZelda.ppm");
+		image_sauvegarder(modele, "newImage.ppm");
 
 		return 0;
 	}

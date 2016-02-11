@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS= -W -Wall -ansi -g
 
 table: table.o
-	$(CC) $< ../MODULE_IMAGE/libimage64.a -o $@.x
+	$(CC) $< ../MODULE_IMAGE/libimage64.a -o $@
 
 libtable64: table.o
 	ar cr $@.a $^

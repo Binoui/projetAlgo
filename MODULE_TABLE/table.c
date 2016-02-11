@@ -77,109 +77,11 @@ int color_table_get_nb_color(color_table table)
 {
 	return table->size / 3;
 }
-/*
-void exchangeVal(color * table, int i, int j)
-{	
-	color tmp[3];
-	int k;
-	for (k = 0; i < 3; i++)
-	{
-		tmp[k] = table[j+k];
-		table[j+k] = table[i+k];
-		table[i+k] = tmp[k];	
-	}
-}
-
-int part(color * table, int start, int end, FCT_CMP fctCmp)
-{
-	int i, j = start;
-	color x = table[start];
-
-	for (i = start + 1; i <= end ; i+=3)
-	{
-		if (fctCmp(&table[i], &x) < 0)
-		{
-			j++;
-			exchangeVal(table, j, i);
-		}
-	}
-
-	exchangeVal(table,j,start);
-	
-	return j;
-}
-
-void sortTable(color * table, int sortStart, int sortEnd, FCT_CMP fctCmp)
-{
-	int i;
-	
-	if (sortStart < sortEnd)
-	{
-		i = part(table, sortStart, sortEnd, fctCmp);
-		sortTable(table, sortStart, i-1, fctCmp);
-		sortTable(table, i+1, sortEnd, fctCmp);		
-	}
-}
-
-void color_table_sort(color_table table, axis colorAxis)
-{
-	assert(table != NULL && colorAxis >= 0 && colorAxis <= 2);
-
-	switch (colorAxis)
-	{
-		case red : 
-    		sortTable(table->colors, 0, table->size - 1, compareRed); 
-		break;
-
-		case green : 
-    		sortTable(table->colors, 0, table->size - 1, compareGreen); 
-		break;
-
-		case blue : 
-    		sortTable(table->colors, 0, table->size - 1, compareBlue); 
-		break;
-	}
-}
-
-
-
-
-void color_table_sort(color_table table, axis colorAxis)
-{
-	assert(table != NULL && colorAxis >= 0 && colorAxis <= 2);
-
-	switch (colorAxis)
-	{
-		case red : 
-    		insertionSort(table, compareRed); 
-		break;
-
-		case green : 
-    		insertionSort(table, compareGreen); 
-		break;
-
-		case blue : 
-    		insertionSort(table, compareBlue); 
-		break;
-	}
-}
-
-void insertionSort(color_table table, FCT_CMP fctCmp)
-{
-	int i, j;
-	for (i = 1; i < table->size; i+=3)
-	{		
-		for (j = i; j > 3 && fctCmp(&table->colors[j], &table->colors[j-3]) > 0; j-=3)
-		{
-			exchangeVal(table->colors, j, j-1);
-		}
-	}
-}
-*/
 
 void color_table_sort(color_table table, axis axis)
 {
 	assert(table != NULL && axis >= 0 && axis <= 2);
+	/* On trie en fonction de la couleur du noeud */
 	switch (axis)
 	{
 		case red : 
